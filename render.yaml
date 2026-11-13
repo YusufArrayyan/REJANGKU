@@ -1,0 +1,34 @@
+# Render Blueprint untuk REJANGKU
+# Mempublikasikan prototipe (situs statis) dari repo ini. Data pada prototipe adalah contoh, bukan korpus.
+# Layanan Korpus (API + PostgreSQL) belum dibangun, jadi belum ada di berkas ini.
+# Dokumentasi: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    runtime: static
+    name: rejangku-prototype
+    repo: https://github.com/YusufArrayyan/REJANGKU
+    branch: main
+    buildCommand: echo "Situs statis, tidak ada langkah build"
+    staticPublishPath: .
+    pullRequestPreviewsEnabled: true
+    routes:
+      - type: redirect
+        source: /
+        destination: /prototype/
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: no-referrer
+      - path: /*
+        name: Permissions-Policy
+        value: geolocation=(), camera=(), microphone=(self)
+      - path: /prototype/assets/fonts/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+      - path: /video/*
+        name: Cache-Control
+        value: public, max-age=86400
