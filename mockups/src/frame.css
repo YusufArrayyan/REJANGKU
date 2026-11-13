@@ -1,0 +1,13 @@
+@font-face{font-family:Inter;src:url(../../prototype/assets/fonts/Inter.woff2);font-weight:100 900}
+*{box-sizing:border-box}body{margin:0;width:1920px;height:1080px;font-family:Inter,system-ui,sans-serif;overflow:hidden;position:relative;color:#1a1a1a}
+.logo{position:absolute;left:64px;top:48px;height:48px}
+.cap{position:absolute;text-align:center;font-size:22px;font-weight:600;letter-spacing:-.2px}
+.cap small{display:block;font-weight:400;font-size:17px;color:#5d5b54;margin-top:2px}
+.dark .cap small{color:#b8b4ab}
+.ph{position:absolute;width:380px;height:820px;background:#15151a;border-radius:46px;padding:10px;box-shadow:0 24px 48px -8px rgba(15,15,15,.28)}
+.ph iframe{width:360px;height:800px;border:0;border-radius:36px;background:#fff;display:block}
+.lap{position:absolute;background:#15151a;border-radius:20px 20px 0 0;padding:14px 14px 0;box-shadow:0 24px 48px -8px rgba(0,0,0,.4)}
+.lap iframe{display:block;border:0;background:#fff;border-radius:6px 6px 0 0}
+.base{position:absolute;height:18px;background:linear-gradient(#d9d7d2,#b9b6af);border-radius:0 0 22px 22px}
+.note{position:absolute;bottom:28px;left:0;right:0;text-align:center;font-size:15px;color:#787671}
+.dark .note{color:#a4a097}

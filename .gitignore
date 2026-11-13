@@ -1,0 +1,7 @@
+node_modules/
+tools/package-lock.json
+video/clips/
+video/frames/
+docs/qa-*.png
+docs/preview-p1.png
+__pycache__/

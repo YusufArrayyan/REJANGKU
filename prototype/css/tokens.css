@@ -1,0 +1,120 @@
+/* REJANGKU design tokens v2
+   Dasar: Notion DESIGN.md (awesome-design), diadaptasi untuk anak dan perangkat kecil.
+   Tambahan v2: teks status berkontras tinggi, jejak tekan (press) tombol, skala murid. */
+
+@font-face {
+  font-family: "Inter";
+  src: url("../assets/fonts/Inter.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Noto Sans Rejang";
+  src: url("../assets/fonts/NotoSansRejang.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+A930-A95F;
+}
+
+:root {
+  /* aksi */
+  --primary: #5645d4;
+  --primary-pressed: #4534b3;
+  --primary-deep: #3a2a99;
+  --on-primary: #fff;
+  --link: #0075de;
+
+  /* latar dan garis */
+  --canvas: #fff;
+  --surface: #f6f5f4;
+  --surface-soft: #fafaf9;
+  --hairline: #e5e3df;
+  --hairline-soft: #ede9e4;
+  --hairline-strong: #c8c4be;
+  --navy: #0a1530;
+  --navy-deep: #070f24;
+  --navy-mid: #1a2a52;
+
+  /* teks */
+  --ink: #1a1a1a;
+  --charcoal: #37352f;
+  --slate: #5d5b54;
+  --steel: #787671;
+  --on-dark: #fff;
+  --on-dark-muted: #b8b4ab;
+
+  /* status: fill untuk titik/bar, ink untuk teks (kontras >= 4.5:1) */
+  --ok: #1aae39;
+  --ok-ink: #0b6b22;
+  --warn: #dd5b00;
+  --warn-ink: #8a3a00;
+  --err: #e03131;
+  --err-ink: #b42318;
+
+  /* topik pastel */
+  --peach: #ffe8d4;
+  --rose: #fde0ec;
+  --mint: #d9f3e1;
+  --lavender: #e6e0f5;
+  --sky: #dcecfa;
+  --yellow: #fef7d6;
+  --lavender-ink: #391c57;
+  --peach-ink: #793400;
+  --mint-ink: #0b5a1d;
+  --rose-ink: #8c2a5c;
+  --sky-ink: #0a4a85;
+  --yellow-ink: #5c4a00;
+
+  /* huruf */
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-aksara: "Noto Sans Rejang", "Inter", sans-serif;
+
+  /* skala */
+  --t-murid-title: 28px;
+  --t-murid-body: 18px;
+  --t-murid-cap: 14px;
+  --t-konsol-title: 22px;
+  --t-konsol-body: 16px;
+  --t-konsol-cap: 13px;
+
+  /* sudut */
+  --r-btn: 8px;
+  --r-card: 12px;
+  --r-panel: 16px;
+
+  /* bayangan */
+  --sh-card: 0 4px 12px rgba(15, 15, 15, 0.08);
+  --sh-modal: 0 16px 48px -8px rgba(15, 15, 15, 0.16);
+  --sh-device: 0 24px 48px -8px rgba(15, 15, 15, 0.2);
+
+  /* gerak */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 180ms;
+
+  /* lapisan */
+  --z-sticky: 10;
+  --z-nav: 20;
+  --z-sheet: 30;
+  --z-toast: 40;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur: 0ms; }
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--canvas);
+  line-height: 1.55;
+  font-feature-settings: "cv11", "ss03";
+}
+button, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; border-radius: 6px; }
+.aksara { font-family: var(--font-aksara); line-height: 1.3; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

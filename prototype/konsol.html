@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>REJANGKU · Konsol Guru dan Penutur (prototipe)</title>
+<link rel="icon" href="../design/logo/rejangku-mark.svg">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/konsol.css">
+</head>
+<body class="konsol">
+<div class="app">
+  <aside class="side">
+    <div class="brand"><img src="../design/logo/rejangku-mark.svg" width="32" height="32" alt=""><span>REJANG<b>KU</b></span></div>
+    <button class="nav" data-v="ringkasan" aria-current="page"><span data-ic="home" data-size="20"></span>Ringkasan kelas</button>
+    <button class="nav" data-v="antrean"><span data-ic="list" data-size="20"></span>Antrean Kurasi<span class="badge">7</span></button>
+    <button class="nav" data-v="verifikasi"><span data-ic="shield" data-size="20"></span>Verifikasi Penutur</button>
+    <button class="nav" data-v="izin"><span data-ic="key" data-size="20"></span>Izin &amp; Akses</button>
+    <button class="nav" data-v="kelas"><span data-ic="users" data-size="20"></span>Murid &amp; Kelas</button>
+    <button class="nav" data-v="gerbang"><span data-ic="gate" data-size="20"></span>Panel Gerbang</button>
+    <div class="grow"></div>
+    <div class="who"><span class="av">BW</span><div><b>Bu Wati</b><small>Guru · Kelas 4A</small></div></div>
+  </aside>
+
+  <main class="main">
+    <!-- RINGKASAN -->
+    <section class="view on" id="v-ringkasan">
+      <div class="head"><div><h1>Ringkasan kelas 4A</h1><p>Pekan ini, 24 murid aktif.</p></div><button class="btn primary" data-v="antrean"><span data-ic="list" data-size="18"></span>Buka antrean</button></div>
+      <div class="cols">
+        <div class="panel">
+          <header><h2>Pertanyaan murid pekan ini</h2><span class="pill n">contoh data</span></header>
+          <div class="sumline"><div><span>Pertanyaan</span><b>186</b></div><div><span>Terjawab</span><b>141</b></div><div><span>Belum ada</span><b>45</b></div><div><span>Waktu kurasi</span><b>38 mnt</b></div></div>
+          <div class="bars">
+            <div class="bar"><span>Aksara</span><i style="--w:82%"></i><b>82</b></div>
+            <div class="bar"><span>Keluarga</span><i style="--w:54%"></i><b>54</b></div>
+            <div class="bar"><span>Makanan</span><i style="--w:38%"></i><b>38</b></div>
+            <div class="bar"><span>Salam</span><i style="--w:24%"></i><b>24</b></div>
+          </div>
+        </div>
+        <div class="panel">
+          <header><h2>Perlu perhatianmu</h2></header>
+          <table><tbody>
+            <tr><td>7 pertanyaan tak terjawab</td><td class="num"><span class="pill wait">Antrean</span></td></tr>
+            <tr><td>3 usulan kata murid</td><td class="num"><span class="pill wait">Menunggu</span></td></tr>
+            <tr><td>2 entri ditandai ragu</td><td class="num"><span class="pill hold">Ditahan</span></td></tr>
+            <tr><td>5 tiruan lafal belum dinilai</td><td class="num"><span class="pill n">Baru</span></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANTREAN -->
+    <section class="view" id="v-antrean">
+      <div class="head"><div><h1>Antrean Kurasi</h1><p>Diurutkan dari yang paling banyak ditanyakan murid.</p></div></div>
+      <div class="tabs" role="tablist"><button class="tab" role="tab" aria-selected="true">Tak terjawab · 7</button><button class="tab" role="tab" aria-selected="false">Usulan murid · 3</button><button class="tab" role="tab" aria-selected="false">Entri meragukan · 2</button></div>
+      <div class="panel"><table>
+        <thead><tr><th>Pertanyaan</th><th class="num">Murid yang bertanya</th><th>Terakhir</th><th></th></tr></thead>
+        <tbody>
+          <tr><td><b>keluarga</b> · topik</td><td class="num">12</td><td>Hari ini</td><td class="num"><button class="btn">Jadwalkan rekaman</button></td></tr>
+          <tr><td><b>salam pagi</b></td><td class="num">9</td><td>Kemarin</td><td class="num"><button class="btn">Jadwalkan rekaman</button></td></tr>
+          <tr><td><b>angka satu sampai sepuluh</b></td><td class="num">7</td><td>Kemarin</td><td class="num"><button class="btn">Jadwalkan rekaman</button></td></tr>
+          <tr><td><b>makanan</b> · topik</td><td class="num">5</td><td>2 hari lalu</td><td class="num"><button class="btn">Jadwalkan rekaman</button></td></tr>
+          <tr><td><b>nama hewan</b></td><td class="num">3</td><td>3 hari lalu</td><td class="num"><button class="btn">Jadwalkan rekaman</button></td></tr>
+        </tbody></table></div>
+      <p style="color:var(--slate);font-size:14px;margin-top:12px">Guru tidak perlu menjadi penutur. Tugasmu mengurutkan prioritas; penutur yang memutuskan benar atau salah.</p>
+    </section>
+
+    <!-- VERIFIKASI -->
+    <section class="view" id="v-verifikasi">
+      <div class="head"><div><h1>Verifikasi Penutur</h1><p>Mode tablet: putar, lalu pilih satu dari tiga tombol.</p></div></div>
+      <div class="panel"><div class="verif">
+        <div class="pg" id="vpg">Entri 12 dari 40</div>
+        <div class="aksara g">ꤰ</div><div class="a">ka</div>
+        <div style="color:var(--slate)">arti: huruf aksara Kaganga</div>
+        <button class="btn primary bigplay" id="vplay"><span data-ic="play" data-size="26"></span>Putar</button>
+        <div class="three">
+          <button class="y" data-d="Benar"><span data-ic="check" data-size="26"></span>Benar</button>
+          <button class="m" data-d="Perlu diperbaiki"><span data-ic="pen" data-size="26"></span>Perlu diperbaiki</button>
+          <button class="n" data-d="Jangan dipakai"><span data-ic="x" data-size="26"></span>Jangan dipakai</button>
+        </div>
+        <button class="btn" style="margin-top:6px"><span data-ic="mic" data-size="18"></span>Catatan suara (opsional)</button>
+        <div class="pg" id="vres" role="status" style="min-height:24px"></div>
+      </div></div>
+    </section>
+
+    <!-- IZIN -->
+    <section class="view" id="v-izin">
+      <div class="head"><div><h1>Izin &amp; Akses</h1><p>Hanya lembaga adat yang dapat mengubah tingkat akses atau menarik entri.</p></div><button class="btn danger"><span data-ic="undo" data-size="18"></span>Tarik entri</button></div>
+      <div class="panel" style="margin-bottom:20px"><header><h2>Tingkat akses</h2></header>
+        <div class="levels">
+          <div class="level umum"><b>Umum</b><span>Tampil di aplikasi murid.</span></div>
+          <div class="level guru"><b>Hanya guru</b><span>Tampil di konsol guru saja.</span></div>
+          <div class="level batas"><b>Terbatas</b><span>Tidak pernah masuk aplikasi murid.</span></div>
+        </div></div>
+      <div class="panel"><header><h2>Catatan izin per entri</h2><span class="pill n">contoh data</span></header><table>
+        <thead><tr><th>Entri</th><th>Penutur</th><th>Bentuk izin</th><th>Akses</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><span class="aksara aksara-s">ꤰ</span>ka</td><td>Bu Marnis</td><td>Tertulis</td><td>Umum</td><td><span class="pill ok">Berizin</span></td></tr>
+          <tr><td><span class="aksara aksara-s">ꤽ</span>ra</td><td>Bu Marnis</td><td>Lisan terekam</td><td>Umum</td><td><span class="pill ok">Berizin</span></td></tr>
+          <tr><td><span class="aksara aksara-s">ꤱ</span>ga</td><td>Pak Ruslan</td><td>Tertulis</td><td>Hanya guru</td><td><span class="pill ok">Berizin</span></td></tr>
+          <tr><td>entri-0417</td><td>—</td><td>—</td><td>—</td><td><span class="pill bad">Tanpa izin · ditahan</span></td></tr>
+        </tbody></table></div>
+    </section>
+
+    <!-- KELAS -->
+    <section class="view" id="v-kelas">
+      <div class="head"><div><h1>Murid &amp; Kelas</h1><p>Murid hanya dikenali lewat kode kelas dan avatar. Tanpa nama lengkap.</p></div><button class="btn primary"><span data-ic="plus" data-size="18"></span>Kelas baru</button></div>
+      <div class="panel" style="margin-bottom:20px"><div style="padding:20px;display:flex;align-items:center;gap:28px">
+        <div><div style="color:var(--slate);font-size:13px">Kode kelas 4A</div><div style="font-size:36px;font-weight:700;letter-spacing:6px;color:var(--primary)">RJ4K72</div></div>
+        <p style="margin:0;color:var(--charcoal);max-width:46ch">Bagikan kode ini ke murid. Perangkat bersama bisa dipakai bergantian dengan avatar berbeda.</p></div></div>
+      <div class="panel"><table><thead><tr><th>Avatar</th><th>Nama panggilan</th><th class="num">Pertanyaan</th><th class="num">Tiruan terkirim</th></tr></thead><tbody>
+        <tr><td>R</td><td>Rani</td><td class="num">14</td><td class="num">3</td></tr><tr><td>M</td><td>Mika</td><td class="num">9</td><td class="num">1</td></tr><tr><td>S</td><td>Sari</td><td class="num">21</td><td class="num">5</td></tr></tbody></table></div>
+    </section>
+
+    <!-- GERBANG -->
+    <section class="view" id="v-gerbang">
+      <div class="head"><div><h1>Panel Gerbang <span class="demo" style="margin-left:8px">angka contoh, bukan hasil</span></h1><p>Fase 3 (bulan 5–10). Empat indikator penentu perluasan.</p></div><button class="btn"><span data-ic="download" data-size="18"></span>Ekspor CSV</button><button class="btn primary"><span data-ic="file" data-size="18"></span>Ekspor PDF</button></div>
+      <div class="rule"><span data-ic="lock" data-size="20"></span><span><b>Aturan keras:</b> bila kepatuhan izin tidak 100%, perluasan dihentikan berapa pun hasil indikator lain.</span></div>
+      <div class="panel">
+        <div class="gate"><div><h3>Keandalan jawaban</h3><small>Audit acak, dua penutur</small></div><div><div class="v">96%</div></div><div><small>Ambang</small><b>≥ 95%</b></div><div class="meter" style="--w:96%;--t:95%"><span></span><em></em></div><span class="pill ok">Lolos</span></div>
+        <div class="gate"><div><h3>Kepatuhan izin</h3><small>Setiap entri punya catatan</small></div><div><div class="v">100%</div></div><div><small>Ambang</small><b>100%</b></div><div class="meter" style="--w:100%;--t:100%"><span></span><em></em></div><span class="pill ok">Lolos</span></div>
+        <div class="gate"><div><h3>Capaian murid</h3><small>Selisih skor vs kelas pembanding</small></div><div><div class="v">0,15 SD</div></div><div><small>Ambang</small><b>≥ 0,2 SD</b></div><div class="meter bad" style="--w:75%;--t:100%"><span></span><em></em></div><span class="pill bad">Belum lolos</span></div>
+        <div class="gate"><div><h3>Kebergunaan (SUS)</h3><small>Kuesioner guru</small></div><div><div class="v">71</div></div><div><small>Ambang</small><b>≥ 68</b></div><div class="meter" style="--w:71%;--t:68%"><span></span><em></em></div><span class="pill ok">Lolos</span></div>
+      </div>
+      <div class="cols" style="margin-top:20px">
+        <div class="panel"><header><h2>Tren keandalan per bulan</h2><span class="pill n">contoh</span></header>
+          <div class="spark"><svg viewBox="0 0 520 150" width="100%" role="img" aria-label="Tren keandalan jawaban per bulan, 91 sampai 96 persen">
+            <line x1="30" x2="510" y1="40" y2="40" stroke="#c8c4be" stroke-dasharray="4 4"/><text x="30" y="32" font-size="12" fill="#5d5b54">ambang 95%</text>
+            <polyline fill="none" stroke="#5645d4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="40,110 130,92 220,75 310,60 400,48 490,36"/>
+            <g fill="#5645d4"><circle cx="40" cy="110" r="4"/><circle cx="130" cy="92" r="4"/><circle cx="220" cy="75" r="4"/><circle cx="310" cy="60" r="4"/><circle cx="400" cy="48" r="4"/><circle cx="490" cy="36" r="4"/></g>
+            <g font-size="12" fill="#5d5b54" text-anchor="middle"><text x="40" y="140">Bln 5</text><text x="130" y="140">6</text><text x="220" y="140">7</text><text x="310" y="140">8</text><text x="400" y="140">9</text><text x="490" y="140">10</text></g></svg></div></div>
+        <div class="panel"><header><h2>Entri tanpa catatan izin</h2></header><table><tbody><tr><td>entri-0417</td><td class="num"><span class="pill hold">Ditahan</span></td></tr></tbody></table>
+          <div style="padding:14px 20px;color:var(--slate);font-size:14px">Entri ini tidak tampil di aplikasi murid sampai izinnya dicatat.</div></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script type="module">
+import { hydrate } from "./js/icons.js";
+const $$ = (s) => [...document.querySelectorAll(s)];
+function show(v) {
+  $$(".view").forEach((x) => x.classList.toggle("on", x.id === "v-" + v));
+  $$(".nav").forEach((n) => n.toggleAttribute("aria-current", n.dataset.v === v));
+  $$(".nav").forEach((n) => { if (n.dataset.v === v) n.setAttribute("aria-current", "page"); });
+  history.replaceState(null, "", "#" + v);
+}
+$$("[data-v]").forEach((b) => b.addEventListener("click", () => show(b.dataset.v)));
+$$(".tab").forEach((t) => t.addEventListener("click", () => { $$(".tab").forEach((x) => x.setAttribute("aria-selected", "false")); t.setAttribute("aria-selected", "true"); }));
+$$("#v-verifikasi [data-d]").forEach((b) => b.addEventListener("click", () => {
+  document.getElementById("vres").textContent = `Keputusan “${b.dataset.d}” tersimpan dengan nama penutur, tanggal, dan versi entri.`;
+  document.getElementById("vpg").textContent = "Entri 13 dari 40";
+}));
+hydrate();
+show((location.hash || "#ringkasan").slice(1));
+addEventListener("hashchange", () => show((location.hash || "#ringkasan").slice(1)));
+</script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>REJANGKU · Aplikasi Murid (prototipe)</title>
+<link rel="icon" href="../design/logo/rejangku-mark.svg">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/murid.css">
+</head>
+<body class="murid">
+<main class="phone" id="phone">
+  <div class="statusbar" aria-hidden="true"><span>09:41</span><span id="sb-net">Luring</span></div>
+
+  <!-- MASUK -->
+  <section class="screen" data-screen="masuk" aria-label="Masuk">
+    <div class="scroll login">
+      <img src="../design/logo/rejangku-mark.svg" width="56" height="56" alt="REJANGKU">
+      <h1 class="title">Masuk ke kelasmu</h1>
+      <p class="lead">Masukkan kode dari gurumu. Tanpa email, tanpa nomor telepon.</p>
+      <div class="codebox" aria-label="Kode kelas"><span class="f">R</span><span class="f">J</span><span class="f">4</span><span class="f">K</span><span></span><span></span></div>
+      <p class="cap" style="margin:0">Pilih avatarmu</p>
+      <div class="avatars" id="avatars"></div>
+      <button class="btn primary" data-go="beranda">Masuk</button>
+    </div>
+  </section>
+
+  <!-- BERANDA -->
+  <section class="screen on" data-screen="beranda" aria-label="Beranda">
+    <div class="scroll">
+      <div class="hello">
+        <div><div class="cap">Selamat datang</div><h1 class="title" style="margin:0">Halo, Rani</h1></div>
+        <div class="avatar" aria-hidden="true">R</div>
+      </div>
+      <p class="lead" style="margin-top:8px">Mau belajar apa hari ini?</p>
+      <button class="tile main" data-go="tanya">
+        <span class="ico" data-ic="chat"></span>
+        <span class="t">Tanya Rejangku</span>
+        <span class="d">Setiap jawaban ada penuturnya.</span>
+      </button>
+      <div class="grid2">
+        <button class="tile mint" data-go="dengar"><span class="ico" data-ic="ear"></span><span class="t">Dengar &amp; Tiru</span></button>
+        <button class="tile sky" data-go="aksara"><span class="ico" data-ic="script"></span><span class="t">Aksara Kaganga</span></button>
+      </div>
+      <button class="tile peach row" data-go="sumbang"><span class="ico" data-ic="plus"></span><span><span class="t" style="display:block">Sumbang Kata</span><span class="d">Usulkan kata baru</span></span></button>
+      <p class="cap" style="margin:20px 0 6px">Topik</p>
+      <div class="chips" role="group" aria-label="Topik">
+        <button class="chip" data-q="huruf ka">Huruf KA</button>
+        <button class="chip" data-q="huruf ra">Huruf RA</button>
+        <button class="chip" data-q="keluarga">Keluarga</button>
+        <button class="chip" data-q="salam">Salam</button>
+      </div>
+    </div>
+    <div class="netbar"><span class="dot" id="dot"></span><span id="netlabel">Luring · korpus v12</span></div>
+  </section>
+
+  <!-- TANYA -->
+  <section class="screen" data-screen="tanya" aria-label="Tanya Rejangku">
+    <div class="topbar"><button class="iconbtn" data-go="beranda" aria-label="Kembali" data-ic="back"></button><h2>Tanya Rejangku</h2></div>
+    <div class="chat" id="chat" aria-live="polite"></div>
+    <form class="composer" id="ask">
+      <label class="sr-only" for="q">Pertanyaanmu</label>
+      <input class="field" id="q" placeholder="Coba: huruf ka" autocomplete="off">
+      <button class="btn primary round" aria-label="Kirim" data-ic="send"></button>
+    </form>
+  </section>
+
+  <!-- DENGAR & TIRU -->
+  <section class="screen" data-screen="dengar" aria-label="Dengar dan Tiru">
+    <div class="topbar"><button class="iconbtn" data-go="beranda" aria-label="Kembali" data-ic="back"></button><h2>Dengar &amp; Tiru</h2></div>
+    <div class="scroll">
+      <div class="stage" style="background:var(--mint)"><div class="aksara huge">ꤰ</div><div class="nm">ka</div></div>
+      <div class="step" style="margin-bottom:10px"><span class="n">1</span>
+        <div class="listen" id="dl"><button class="btn" id="dplay" style="width:auto"><span data-ic="play" data-size="20"></span>Dengar</button><span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></div>
+      </div>
+      <div class="step" style="margin-bottom:10px"><span class="n">2</span>
+        <div style="display:flex;align-items:center;gap:16px;width:100%"><button class="rec" id="rec" aria-pressed="false" aria-label="Rekam tiruanmu" data-ic="mic" data-size="36"></button><span class="cap" id="rectxt">Tekan, lalu ucapkan.</span></div>
+      </div>
+      <button class="btn primary" id="sendteacher" disabled>Kirim ke guru</button>
+      <p class="cap" style="margin-top:12px">Rekamanmu tersimpan di perangkat ini. Terkirim hanya bila kamu menekan tombol.</p>
+    </div>
+  </section>
+
+  <!-- AKSARA -->
+  <section class="screen" data-screen="aksara" aria-label="Aksara Kaganga">
+    <div class="topbar"><button class="iconbtn" data-go="beranda" aria-label="Kembali" data-ic="back"></button><h2>Aksara Kaganga</h2></div>
+    <div class="scroll">
+      <div class="stage"><div class="aksara huge" id="bigg">ꤰ</div><div class="nm" id="bign">ka</div></div>
+      <div class="trace" aria-label="Latihan menulis"><span class="aksara ghost" id="ghost">ꤰ</span><canvas id="cv"></canvas></div>
+      <div style="display:flex;gap:10px;margin:12px 0 18px"><button class="btn" id="clear"><span data-ic="undo" data-size="20"></span>Ulangi</button></div>
+      <div class="letters" id="letters" role="group" aria-label="Pilih huruf"></div>
+      <p class="note" id="rawarn" style="margin-top:14px;display:none">Huruf RA memakai font yang diuji khusus, karena bagan Unicode punya galat glif pada U+A93D.</p>
+    </div>
+  </section>
+
+  <!-- SUMBANG KATA -->
+  <section class="screen" data-screen="sumbang" aria-label="Sumbang Kata">
+    <div class="topbar"><button class="iconbtn" data-go="beranda" aria-label="Kembali" data-ic="back"></button><h2>Sumbang Kata</h2></div>
+    <div class="scroll">
+      <form class="sumbang" id="sform">
+        <label for="kata">Kata yang ingin kamu tambahkan</label>
+        <input class="field" id="kata" placeholder="Tulis kata" autocomplete="off">
+        <button type="button" class="btn"><span data-ic="mic" data-size="20"></span>Tambah rekaman</button>
+        <button class="btn primary">Kirim usulan</button>
+      </form>
+      <h3 style="font-size:18px;margin:24px 0 0">Usulanmu</h3>
+      <div class="ulist" id="ulist">
+        <div class="uitem"><b>contoh usulan 1</b><span class="status wait">Menunggu</span></div>
+        <div class="uitem"><b>contoh usulan 2</b><span class="status ok">Diterima</span></div>
+        <div class="uitem"><b>contoh usulan 3</b><span class="status hold">Perlu rekam ulang</span></div>
+      </div>
+      <p class="cap" style="margin-top:10px">Penutur sepuh memeriksa setiap usulan sebelum tampil.</p>
+    </div>
+  </section>
+
+  <div class="toast" id="toast" role="status"></div>
+</main>
+
+<script type="module">
+import { hydrate, icon } from "./js/icons.js";
+
+const L = [
+  ["ꤰ","ka"],["ꤱ","ga"],["ꤲ","nga"],["ꤳ","ta"],["ꤴ","da"],["ꤵ","na"],["ꤶ","pa"],["ꤷ","ba"],
+  ["ꤸ","ma"],["ꤹ","ca"],["ꤺ","ja"],["ꤻ","nya"],["ꤼ","sa"],["ꤽ","ra"],["ꤾ","la"],["ꤿ","ya"],
+];
+const SRC = { nm: "Bu Marnis", role: "Penutur, desa contoh", date: "2 Mar" };
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const params = new URLSearchParams(location.search);
+if (params.has("bare")) document.body.classList.add("bare");
+
+function go(name) {
+  $$(".screen").forEach((s) => s.classList.toggle("on", s.dataset.screen === name));
+  if (name === "tanya" && !$("#chat").children.length) { $("#q").focus({ preventScroll: true }); }
+}
+$$("[data-go]").forEach((b) => b.addEventListener("click", () => go(b.dataset.go)));
+
+function toast(t) { const el = $("#toast"); el.textContent = t; el.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove("on"), 2400); }
+
+/* avatar */
+const AV = [["R","var(--yellow)","var(--yellow-ink)"],["M","var(--mint)","var(--mint-ink)"],["S","var(--sky)","var(--sky-ink)"],["K","var(--rose)","var(--rose-ink)"]];
+$("#avatars").innerHTML = AV.map(([c,bg,fg],i)=>`<button aria-pressed="${i===0}" aria-label="Avatar ${c}" style="background:${bg};color:${fg}">${c}</button>`).join("");
+$$("#avatars button").forEach((b)=>b.addEventListener("click",()=>{ $$("#avatars button").forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); }));
+
+/* tanya */
+function answerCard(g, n) {
+  const raNote = n === "ra" ? `<div class="note">Huruf RA dirender dengan font teruji (FR-50).</div>` : "";
+  return `<article class="answer"><div class="body">
+    <div class="aksara big">${g}</div><div class="latin">${n}</div>
+    <div class="listen"><button class="btn" data-play><span data-ic="play" data-size="20"></span>Dengar</button>
+      <span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+      <span class="speed" role="group" aria-label="Kecepatan"><button aria-pressed="false">0,75×</button><button aria-pressed="true">1×</button></span></div>
+    <div class="arti">arti: huruf aksara Kaganga, dibaca “${n}”.</div>${raNote}
+  </div>
+  <div class="source"><div class="who"><span class="av">BM</span><div><div class="nm">Dari: ${SRC.nm}</div><div class="sub">${SRC.role}</div></div></div>
+    <span class="status ok">${icon("check",14)} Diverifikasi ${SRC.date}</span>
+    <button class="btn" style="min-height:48px">Dari siapa ini?</button></div></article>`;
+}
+function emptyCard(q) {
+  return `<div class="empty"><div class="art">${icon("book",44)}</div><h3>Kata ini belum ada di korpus REJANGKU.</h3><p>Lebih baik kosong daripada keliru.</p>
+    <button class="btn primary" data-teacher>Tanyakan ke guru</button><button class="btn" data-again>Coba kata lain</button></div>`;
+}
+function ask(q) {
+  q = q.trim(); if (!q) return;
+  go("tanya");
+  const chat = $("#chat"); chat.innerHTML = "";
+  chat.insertAdjacentHTML("beforeend", `<div class="bubble-me"></div>`); chat.lastChild.textContent = q;
+  const hit = L.find(([, n]) => new RegExp(`\\b${n}\\b`).test(q.toLowerCase().replace("huruf ", " ")) && /huruf|aksara|tulis|baca|^\w{2,3}$/.test(q.toLowerCase()));
+  chat.insertAdjacentHTML("beforeend", hit ? answerCard(hit[0], hit[1]) : emptyCard(q));
+  hydrate(chat);
+  $$("[data-play]", chat).forEach(b => b.addEventListener("click", () => play(b.closest(".listen"))));
+  $$(".speed button", chat).forEach(b => b.addEventListener("click", () => { $$(".speed button", b.parentNode).forEach(x => x.setAttribute("aria-pressed", "false")); b.setAttribute("aria-pressed", "true"); }));
+  $$("[data-teacher]", chat).forEach(b => b.addEventListener("click", () => { b.disabled = true; b.textContent = "Terkirim"; toast("Pertanyaanmu sudah dikirim ke Bu/Pak Guru."); }));
+  $$("[data-again]", chat).forEach(b => b.addEventListener("click", () => { $("#q").value = ""; $("#q").focus(); }));
+}
+$("#ask").addEventListener("submit", (e) => { e.preventDefault(); ask($("#q").value); $("#q").value = ""; });
+$$("[data-q]").forEach((b) => b.addEventListener("click", () => ask(b.dataset.q)));
+
+function play(wrap) { wrap.classList.add("playing"); setTimeout(() => wrap.classList.remove("playing"), 1600); }
+
+/* dengar & tiru */
+$("#dplay").addEventListener("click", () => play($("#dl")));
+let rec = false;
+$("#rec").addEventListener("click", () => {
+  rec = !rec; $("#rec").setAttribute("aria-pressed", rec);
+  $("#rectxt").textContent = rec ? "Merekam… tekan lagi untuk selesai." : "Rekaman siap. Dengarkan atau kirim.";
+  if (!rec) $("#sendteacher").disabled = false;
+});
+$("#sendteacher").addEventListener("click", () => toast("Tiruanmu terkirim ke Bu/Pak Guru."));
+
+/* aksara */
+$("#letters").innerHTML = L.map(([g, n], i) => `<button class="letter" aria-pressed="${i===0}" data-i="${i}"><span class="aksara g">${g}</span><span class="l">${n}</span></button>`).join("");
+$$(".letter").forEach((b) => b.addEventListener("click", () => {
+  const [g, n] = L[b.dataset.i];
+  $$(".letter").forEach(x => x.setAttribute("aria-pressed", "false")); b.setAttribute("aria-pressed", "true");
+  $("#bigg").textContent = g; $("#bign").textContent = n; $("#ghost").textContent = g;
+  $("#rawarn").style.display = n === "ra" ? "block" : "none"; clearCv();
+}));
+const cv = $("#cv"), cx = cv.getContext("2d"); let down = false;
+function fit() { const r = cv.getBoundingClientRect(); cv.width = r.width * 2; cv.height = r.height * 2; cx.scale(2, 2); cx.lineWidth = 5; cx.lineCap = "round"; cx.strokeStyle = "#5645d4"; }
+function clearCv() { cx.clearRect(0, 0, cv.width, cv.height); }
+const pt = (e) => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+cv.addEventListener("pointerdown", (e) => { down = true; cv.setPointerCapture(e.pointerId); cx.beginPath(); cx.moveTo(...pt(e)); });
+cv.addEventListener("pointermove", (e) => { if (down) { cx.lineTo(...pt(e)); cx.stroke(); } });
+cv.addEventListener("pointerup", () => down = false);
+$("#clear").addEventListener("click", clearCv);
+const obs = new MutationObserver(() => { if ($('[data-screen="aksara"]').classList.contains("on")) requestAnimationFrame(fit); });
+obs.observe($('[data-screen="aksara"]'), { attributes: true });
+
+/* sumbang */
+$("#sform").addEventListener("submit", (e) => { e.preventDefault(); const v = $("#kata").value.trim(); if (!v) return;
+  $("#ulist").insertAdjacentHTML("afterbegin", `<div class="uitem"><b></b><span class="status wait">Menunggu</span></div>`); $("#ulist").firstChild.querySelector("b").textContent = v;
+  $("#kata").value = ""; toast("Kata barumu sedang diperiksa penutur."); });
+
+/* luring / daring */
+let online = false;
+function net() { $("#dot").classList.toggle("ok", online); $("#netlabel").textContent = online ? "Tersinkron · korpus v12" : "Luring · korpus v12"; $("#sb-net").textContent = online ? "Daring" : "Luring"; }
+$("#dot").parentNode.addEventListener("click", () => { online = !online; net(); toast(online ? "Tersambung. Korpus sudah yang terbaru." : "Kamu sedang luring. Semua pelajaran tetap bisa dipakai."); });
+net();
+
+hydrate();
+const s = params.get("s"); if (s) go(s);
+const aq = params.get("q"); if (aq) ask(aq);
+if (params.get("rec")) { $("#rec").click(); }
+</script>
+</body>
+</html>
