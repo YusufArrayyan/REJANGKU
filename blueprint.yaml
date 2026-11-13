@@ -1,0 +1,234 @@
+# REJANGKU blueprint
+# Ringkasan terstruktur dari PRD_REJANGKU.md (Draf 1) dan prototipe di prototype/.
+# Semua angka ambang, pilihan teknologi, dan jadwal adalah USULAN AWAL, belum diuji.
+# Bila berbeda dengan PRD, PRD yang berlaku.
+
+blueprint:
+  version: 1
+  status: draf
+  date: 2026-11-13
+  source: PRD_REJANGKU.md
+
+project:
+  name: REJANGKU
+  tagline: Lebih baik kosong daripada keliru
+  summary: >
+    Platform belajar bahasa Rejang untuk sekolah dasar. Murid bertanya dan sistem
+    hanya menjawab dari korpus yang berizin dan divalidasi penutur sepuh. Bila entri
+    tidak ada, sistem menjawab "Belum ada di korpus" dan meneruskan ke guru.
+  owner: Muhammad Yusuf Arrayyan (Teknik Informatika, Universitas Bengkulu)
+  language: id
+  pilot_duration_months: 12
+  repository: https://github.com/YusufArrayyan/REJANGKU
+
+goals:
+  - {id: "G1", text: "Murid mendapat jawaban bersumber untuk kosakata dan frasa dasar Rejang"}
+  - {id: "G2", text: "Setiap jawaban dapat ditelusuri ke entri korpus dan penutur"}
+  - {id: "G3", text: "Guru dapat menjadi kurator tanpa harus menjadi penutur"}
+  - {id: "G4", text: "Komunitas memegang kendali data (izin, tingkat akses, penarikan)"}
+  - {id: "G5", text: "Aplikasi murid berjalan tanpa internet"}
+
+non_goals:
+  - Penerjemah umum Indonesia-Rejang yang menjawab semua hal
+  - Pengenalan suara (ASR) pada fase awal; dibuka bila data rekaman bertranskripsi memadai
+  - Fitur sosial terbuka antarmuka murid
+  - Penjualan data atau pelatihan model umum dari korpus
+
+components:
+  - id: app-murid
+    name: Aplikasi Murid
+    platform: Android 8+
+    min_ram_gb: 2
+    size_budget_mb: 500   # korpus + model, perlu diuji
+    offline: penuh
+    screens: [masuk, beranda, tanya, dengar-tiru, aksara, sumbang-kata]
+    prototype: prototype/murid.html
+    runs_locally: [pencari, penyusun-jawaban-kecil, pemeriksa-sumber, sqlite]
+  - id: konsol
+    name: Konsol Guru dan Penutur
+    platform: [web, android]
+    views: [ringkasan, antrean-kurasi, verifikasi-penutur, izin-akses, murid-kelas, panel-gerbang]
+    prototype: prototype/konsol.html
+  - id: layanan-korpus
+    name: Layanan Korpus
+    kind: server API (HTTPS)
+    modules: [entri, rekaman, izin, akses, audit, pengguna, laporan, sinkronisasi]
+    storage: {database: PostgreSQL, objects: penyimpanan objek untuk audio}
+
+tech_stack:   # dapat diganti setelah uji
+  app: [Flutter atau Kotlin]
+  local_db: SQLite
+  server_db: PostgreSQL
+  audio: penyimpanan objek
+  on_device_model: model bahasa kecil; wajib lulus uji FR-1 pada set uji internal
+  principle: Server tidak melatih model dari korpus tanpa persetujuan tertulis lembaga adat
+
+personas:
+  - {id: "murid", name: "Murid SD kelas 3-6", need: "belajar singkat, bergambar, bersuara"}
+  - {id: "guru", name: "Guru (bukan penutur)", need: "bahan aman dan tahu apa yang dicari murid"}
+  - {id: "penutur", name: "Penutur sepuh", need: "menyimak, mengoreksi, memberi izin tanpa banyak mengetik"}
+  - {id: "relawan", name: "Relawan komunitas", need: "merekam dan mengunggah dengan benar"}
+  - {id: "lembaga-adat", name: "Lembaga adat", need: "menetapkan akses dan menarik entri"}
+  - {id: "admin", name: "Admin proyek", need: "memantau gerbang dan ekspor laporan"}
+
+features:
+  mvp:
+    - {id: "F1", name: "Tanya Rejangku", priority: "wajib"}
+    - {id: "F2", name: "Kartu sumber", priority: "wajib"}
+    - {id: "F3", name: "Belum ada di korpus + kirim ke guru", priority: "wajib"}
+    - {id: "F4", name: "Dengar & Tiru", priority: "wajib"}
+    - {id: "F5", name: "Modul Aksara Kaganga", priority: "wajib"}
+    - {id: "F6", name: "Sumbang Kata", priority: "wajib"}
+    - {id: "F7", name: "Antrean Kurasi", priority: "wajib"}
+    - {id: "F8", name: "Verifikasi Penutur", priority: "wajib"}
+    - {id: "F9", name: "Catatan izin per entri + tingkat akses", priority: "wajib"}
+    - {id: "F10", name: "Penarikan entri oleh komunitas", priority: "wajib"}
+    - {id: "F11", name: "Luring penuh + sinkron", priority: "wajib"}
+    - {id: "F12", name: "Panel Gerbang", priority: "wajib"}
+    - {id: "F13", name: "Audit sampel jawaban", priority: "wajib"}
+    - {id: "F14", name: "Kuesioner SUS untuk guru", priority: "sebaiknya"}
+  after_mvp: [ASR Rejang bertahap, Mode keluarga, Bahasa daerah lain dengan korpus terpisah]
+
+answer_pipeline:
+  steps:
+    - {id: "cari", name: "Pencari", does: "mencari entri di korpus lokal (indeks vektor)"}
+    - {id: "susun", name: "Penyusun jawaban", does: "merangkai kalimat hanya dari entri terambil"}
+    - {id: "periksa", name: "Pemeriksa sumber", does: "memastikan tidak ada kata di luar entri"}
+    - {id: "tampil", name: "Jawaban", does: "tampil dengan kartu sumber, penutur, status verifikasi"}
+  fallback: Belum ada di korpus, tawarkan Tanyakan ke guru
+  rules:
+    - {id: "FR-1", text: "Jawaban hanya dari entri hasil pencarian; model tidak menambah kata, arti, atau lafal"}
+    - {id: "FR-2", text: "Setiap jawaban memuat minimal satu entri sumber beserta penutur dan status verifikasi"}
+    - {id: "FR-3", text: "Skor di bawah ambang atau tanpa entri menampilkan Belum ada di korpus"}
+    - {id: "FR-4", text: "Entri akses Terbatas tidak pernah diambil di aplikasi murid"}
+    - {id: "FR-5", text: "Jawaban hasil susunan model disimpan bersama ID entri sumber untuk audit"}
+    - {id: "FR-6", text: "Bila pemeriksa menemukan kata di luar entri, ganti dengan entri mentah atau Belum ada"}
+
+requirements:
+  murid:
+    - {id: "FR-10", text: "Masuk dengan kode kelas dan avatar, tanpa email atau telepon"}
+    - {id: "FR-11", text: "Bertanya lewat teks atau topik bergambar (keluarga, makanan, alam, angka, salam)"}
+    - {id: "FR-12", text: "Kartu jawaban punya putar suara dan tombol Dari siapa ini?"}
+    - {id: "FR-13", text: "Merekam tiruan, memutar ulang, mengirim ke guru"}
+    - {id: "FR-14", text: "Mengajukan kata baru; status menunggu, diterima, perlu rekam ulang"}
+  guru:
+    - {id: "FR-20", text: "Membuat kelas dan kode kelas; daftar murid tanpa data pribadi berlebih"}
+    - {id: "FR-21", text: "Antrean diurutkan menurut jumlah murid yang bertanya"}
+    - {id: "FR-22", text: "Menandai entri meragukan; ditahan sampai penutur memeriksa"}
+    - {id: "FR-23", text: "Menilai tiruan lafal murid dengan skala sederhana"}
+    - {id: "FR-24", text: "Melihat pola pertanyaan kelas"}
+  penutur_relawan:
+    - {id: "FR-30", text: "Relawan merekam atas nama penutur dan mencatat persetujuan lisan atau tertulis"}
+    - {id: "FR-31", text: "Verifikasi: putar lalu tiga tombol besar (Benar, Perlu diperbaiki, Jangan dipakai)"}
+    - {id: "FR-32", text: "Keputusan tersimpan dengan nama, tanggal, versi entri"}
+  lembaga_adat_admin:
+    - {id: "FR-40", text: "Tingkat akses per entri: Umum, Hanya guru, Terbatas"}
+    - {id: "FR-41", text: "Penarikan menghapus dari server dan perangkat saat sinkron; riwayat tetap"}
+    - {id: "FR-42", text: "Panel Gerbang menampilkan empat indikator, tren bulanan, entri tanpa izin"}
+    - {id: "FR-43", text: "Ekspor laporan CSV dan PDF"}
+  aksara_kaganga:
+    - {id: "FR-50", text: "Font teruji; huruf RA (U+A93D) dan JA diuji sebagai penerimaan pertama"}
+    - {id: "FR-51", text: "Teks aksara disimpan sebagai Unicode ditambah teks Latin"}
+    - {id: "FR-52", text: "Tes visual otomatis RA dan JA tiap font diganti"}
+
+non_functional:
+  offline: Fitur murid F1-F6 jalan tanpa internet pada korpus terunduh
+  latency_answer_seconds_max: 3   # belum diukur
+  child_privacy: [tanpa nama lengkap, tanpa lokasi, tanpa iklan, tanpa pelacak pihak ketiga]
+  student_audio: disimpan lokal; terkirim hanya dengan aksi murid; kedaluwarsa otomatis
+  accessibility: {touch_target_px_min: 48, text_contrast_min: 4.5, text_scale_max_percent: 200}
+  resilience: sinkronisasi dapat dilanjutkan, tanpa kehilangan data bila koneksi putus
+  legal: Kepatuhan UU PDP untuk data anak; perlu tinjauan ahli hukum sebelum percontohan
+
+data_model:
+  Entri: [id, bentuk_latin, bentuk_aksara, arti_indonesia, jenis, contoh, versi, status]
+  Rekaman: [id, entri_id, penutur_id, berkas, durasi, tanggal]
+  Penutur: [id, nama_tampilan, desa, peran, status_persetujuan]
+  Izin: [id, entri_id, penutur_id, lembaga_id, bentuk, tanggal, tingkat_akses, berlaku_hingga]
+  Verifikasi: [id, entri_id, penutur_id, keputusan, catatan, tanggal]
+  Pertanyaan: [id, kelas_id, teks, hasil, entri_sumber, waktu]
+  Usulan: [id, murid_ref, teks, media, status]
+  Kelas: [id, sekolah_id, guru_id, kode]
+  Audit: [id, sampel_jawaban, penilai_1, penilai_2, sesuai_korpus, tanggal]
+  Penarikan: [id, entri_id, alasan, tanggal, peminta]
+  enums:
+    Entri.jenis: [kata, frasa, cerita]
+    Entri.status: [draf, terverifikasi, ditahan, ditarik]
+    Izin.bentuk: [tertulis, lisan terekam]
+    Izin.tingkat_akses: [umum, hanya-guru, terbatas]
+    Verifikasi.keputusan: [benar, perlu-diperbaiki, jangan-dipakai]
+    Pertanyaan.hasil: [terjawab, belum_ada]
+
+api:
+  auth_rule: Setiap perubahan memerlukan peran yang sesuai; penarikan hanya untuk peran lembaga adat
+  endpoints:
+    - {method: GET, path: "/sync?sejak={versi}", purpose: "Unduh delta entri, rekaman, penarikan"}
+    - {method: POST, path: "/pertanyaan", purpose: "Kirim pertanyaan tak terjawab"}
+    - {method: POST, path: "/usulan", purpose: "Kirim usulan kata"}
+    - {method: GET, path: "/kurasi/antrean", purpose: "Antrean guru"}
+    - {method: POST, path: "/entri/{id}/verifikasi", purpose: "Keputusan penutur"}
+    - {method: POST, path: "/entri/{id}/tarik", purpose: "Penarikan oleh lembaga adat"}
+    - {method: GET, path: "/gerbang", purpose: "Empat indikator dan tren"}
+    - {method: POST, path: "/audit/sampel", purpose: "Buat sampel audit acak"}
+
+gates:   # usulan; bila izin tidak 100%, perluasan berhenti berapa pun hasil lain
+  hard_stop: kepatuhan-izin
+  indicators:
+    - {id: "keandalan-jawaban", threshold: ">= 95%", method: "Audit sampel acak oleh dua penutur sepuh"}
+    - {id: "kepatuhan-izin", threshold: "100%", method: "Setiap entri punya catatan izin"}
+    - {id: "capaian-murid", threshold: ">= 0,2 SD", method: "Selisih skor kosakata dan aksara vs kelas pembanding"}
+    - {id: "kebergunaan", threshold: "SUS >= 68", method: "Kuesioner SUS untuk guru"}
+
+roadmap:
+  - {phase: "Persiapan", months: "1-2", output: "Pemetaan lapangan, korpus awal berizin, perjanjian izin, uji font Kaganga, prototipe klik"}
+  - {phase: "Pilot", months: "3-4", output: "Aplikasi murid F1-F5 luring, Konsol F7-F9, pelatihan"}
+  - {phase: "Operasi", months: "5-10", output: "Siklus belajar, audit berkala, F6, F10-F13"}
+  - {phase: "Evaluasi", months: "11-12", output: "Penilaian empat gerbang, laporan, rekomendasi perluasan"}
+
+risks:
+  - {risk: "Korpus terlalu kecil", mitigation: "Prioritaskan perekaman penutur tertua; antrean menurut pertanyaan murid"}
+  - {risk: "Model menambah kata di luar entri", mitigation: "Pemeriksa sumber FR-6 dan uji set internal"}
+  - {risk: "Izin tidak lengkap", mitigation: "Gerbang izin 100%; entri tanpa izin tidak tampil"}
+  - {risk: "Beban guru tinggi", mitigation: "Ukur sejak pilot; sederhanakan antrean"}
+  - {risk: "Galat glif Kaganga", mitigation: "Font teruji dan tes visual RA/JA"}
+  - {risk: "Perangkat sekolah lemah", mitigation: "Uji pada perangkat sasaran sebelum pilot"}
+  - {risk: "Pendanaan berhenti", mitigation: "Mitra usaha dan dinas; porsi tetap untuk perekaman"}
+
+open_questions:
+  - Siapa pemilik hukum korpus dan perjanjian izin?
+  - Perangkat apa yang tersedia di sekolah sasaran, dan apakah dibagi pakai?
+  - Berapa penutur sepuh yang bersedia, dan dalam bentuk apa?
+  - Apakah tata tulis Latin Rejang sudah dibakukan?
+  - Tingkat akses apa lagi yang dikehendaki lembaga adat selain tiga tingkat FR-40?
+  - Apakah ASR layak pada fase lanjutan, dan berapa data minimalnya?
+
+design:
+  reference: Notion (awesome-design), disesuaikan untuk anak
+  spec: design/DESIGN.md
+  tokens: prototype/css/tokens.css
+  logo: {mark: design/logo/rejangku-mark.svg, wordmark: design/logo/rejangku-logo.svg}
+  colors:
+    primary: "#5645d4"
+    canvas: "#ffffff"
+    surface: "#f6f5f4"
+    ink: "#1a1a1a"
+    navy: "#0a1530"
+    status: {ok: "#1aae39", warn: "#dd5b00", err: "#e03131"}
+  typography: {ui: Inter, aksara: Noto Sans Rejang}
+  scale_px: {murid: [28, 18, 14], konsol: [22, 16, 13]}
+  radius_px: {button: 8, card: 12, panel: 16}
+  principles:
+    - Satu aksi utama per layar
+    - Sumber selalu terlihat
+    - Jujur saat kosong
+    - Besar dan sedikit
+    - Warna memberi arti
+    - Tanpa hiasan acak
+
+deliverables:
+  prd: PRD_REJANGKU.md
+  prototype: prototype/
+  mockups: [mockups/mockup-mobile.png, mockups/mockup-pc.png, mockups/mockup-ekosistem.png]
+  user_guide: docs/Panduan-Penggunaan-REJANGKU.pdf
+  video: video/rejangku-alur-kerja.mp4
+  build_scripts: tools/
